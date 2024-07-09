@@ -14,7 +14,10 @@ import re
 
 import tiktoken
 
-PROJECT_BASE = '/data/users/searchgpt/yq/GoMate'
+from settings import BASE_DIR
+
+# PROJECT_BASE = '/data/users/searchgpt/yq/GoMate'
+PROJECT_BASE = BASE_DIR
 all_codecs = [
     'utf-8', 'gb2312', 'gbk', 'utf_16', 'ascii', 'big5', 'big5hkscs',
     'cp037', 'cp273', 'cp424', 'cp437',
@@ -125,7 +128,9 @@ def findMaxTm(fnm):
     return m
 # https://stackoverflow.com/questions/76106366/how-to-use-tiktoken-in-offline-mode-computer
 import tiktoken_ext.openai_public
-tiktoken_cache_dir = "/data/users/searchgpt/yq/GoMate/data/docs"
+# tiktoken_cache_dir = "/data/users/searchgpt/yq/GoMate/data/docs"
+tiktoken_cache_dir = os.path.join(BASE_DIR, 'data/docs')
+# tiktoken_cache_dir = "/data/users/searchgpt/yq/GoMate/data/docs"
 os.environ["TIKTOKEN_CACHE_DIR"] = tiktoken_cache_dir
 encoder = tiktoken.get_encoding("cl100k_base")
 

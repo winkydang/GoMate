@@ -11,6 +11,7 @@ from tqdm import tqdm
 from gomate.modules.retrieval.base import BaseRetriever
 from gomate.modules.retrieval.embedding import BaseEmbeddingModel, OpenAIEmbeddingModel
 from gomate.modules.retrieval.embedding import SBertEmbeddingModel
+from settings import BASE_DIR
 
 
 class FaissRetrieverConfig:
@@ -178,7 +179,8 @@ if __name__ == '__main__':
     retriever_config = FaissRetrieverConfig(
         embedding_model=embedding_model,
         embedding_model_string="bge-large-zh-v1.5",
-        index_path="/data/users/searchgpt/yq/GoMate/examples/retrievers/faiss_index.bin",
+        # index_path="/data/users/searchgpt/yq/GoMate/examples/retrievers/faiss_index.bin",
+        index_path=os.path.join(BASE_DIR, "examples/retrievers/faiss_index.bin"),
         rebuild_index=False
     )
     faiss_retriever = FaissRetriever(config=retriever_config)

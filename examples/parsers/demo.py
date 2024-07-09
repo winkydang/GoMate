@@ -1,3 +1,5 @@
+import os
+
 import requests
 from io import BytesIO
 
@@ -16,8 +18,11 @@ from io import BytesIO
 
 import requests
 
+from settings import BASE_DIR
+
 # 指定文件路径
-file_path = '/data/users/searchgpt/yq/GoMate/data/docs/夏至各地习俗.docx'
+# file_path = '/data/users/searchgpt/yq/GoMate/data/docs/夏至各地习俗.docx'
+file_path = os.path.join(BASE_DIR, 'data/docs/夏至各地习俗.docx')
 files = {'file': open(file_path, 'rb')}
 
 # 发送文件

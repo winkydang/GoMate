@@ -21,8 +21,6 @@ class CreateType(IntEnum):
     Fork = 1
 
 
-
-
 class AbstractModel(models.Model):
     id = fields.IntField(pk=True)
     created_at = fields.DatetimeField(auto_now=True, description="创建时间")

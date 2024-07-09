@@ -3,6 +3,10 @@ from abc import ABC
 from typing import List
 
 import jieba
+"""
+    这段代码的主要功能是对给定的响应文本进行分割，并在文本中合适的位置添加引文标记。
+    
+"""
 
 
 class MatchCitation(ABC):
@@ -12,19 +16,25 @@ class MatchCitation(ABC):
         ]
 
     def cut(self, para: str):
-        """"""
+        """
+        cut方法使用正则表达式将给定的文本段落按照标点符号（如句号、感叹号、问号等）进行分割。每个分割点都会在标点符号后面插入一个换行符，并将最终结果返回为一个列表。
+        """
         pattern = [
             '([。！？\?])([^”’])',  # 单字符断句符
             '(\.{6})([^”’])',  # 英文省略号
             '(\…{2})([^”’])',  # 中文省略号
             '([。！？\?][”’])([^，。！？\?])'
         ]
+        # 这个操作的目的是在句子结束标点符号后面插入换行符，从而将文本分割成多个独立的句子。
         for i in pattern:
             para = re.sub(i, r"\1\n\2", para)
         para = para.rstrip()
         return para.split("\n")
 
     def remove_stopwords(self, query: str):
+        """
+        remove_stopwords方法会从给定的字符串中移除预定义的停用词（这里仅为“的”）。
+        """
         for word in self.stopwords:
             query = query.replace(word, " ")
         return query
@@ -40,7 +50,7 @@ class MatchCitation(ABC):
 
         # Step 1: cut response into sentences, line break is removed
         # print(response)
-        sentences = self.cut(response)
+        sentences = self.cut(response)  # 将响应文本切成句子
         # print(sentences)
         # get removed line break position
         line_breaks = []
@@ -56,7 +66,7 @@ class MatchCitation(ABC):
         citations = [i + 1 for i in selected_idx]
         paragraph_have_citation = False
         paragraph = ""
-        for sentence, line_break in zip(sentences, line_breaks):
+        for sentence, line_break in zip(sentences, line_breaks):  # # 逐句处理，每个句子都会去除停用词，然后使用jieba进行分词，形成一个词集合。
             origin_sentence = sentence
             paragraph += origin_sentence
             sentence = self.remove_stopwords(sentence)
@@ -146,7 +156,7 @@ class MatchCitation(ABC):
             final_response = ''.join(final_response)
         return final_response
 
-    def concatenate_citations(self, result: list[dict] = None):
+    def concatenate_citations(self, result: list[dict] = None):  # 将带有引文标记的文本重新连接成一个完整的字符串。
         """
 
         :param result:

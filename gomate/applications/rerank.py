@@ -1,4 +1,7 @@
+import os.path
+
 from gomate.modules.reranker.bge_reranker import BgeReranker,BgeRerankerConfig
+from settings import BASE_DIR
 
 
 class RerankerApp():
@@ -16,7 +19,8 @@ class RerankerApp():
         assert component_name in self.reranker_list
         if component_name == 'bge_large':
             reranker_config = BgeRerankerConfig(
-                model_name_or_path="/home/test/pretrained_models/bge-reranker-large"
+                # model_name_or_path="/home/test/pretrained_models/bge-reranker-large"
+                model_name_or_path=os.path.join(BASE_DIR, 'pretrained_models/bge-reranker-large')
             )
             self.reranker = BgeReranker(reranker_config)
 

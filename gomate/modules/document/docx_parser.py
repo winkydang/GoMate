@@ -10,6 +10,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
+import os
 
 from docx import Document
 import re
@@ -17,6 +18,8 @@ import pandas as pd
 from collections import Counter
 from gomate.modules.document import rag_tokenizer
 from io import BytesIO
+
+from settings import BASE_DIR
 
 
 class DocxParser:
@@ -132,6 +135,6 @@ class DocxParser:
         return secs+tbls
 if __name__ == '__main__':
     dp=DocxParser()
-    secs, tbls=dp.parse('/data/users/searchgpt/yq/GoMate/data/docs/夏至各地习俗.docx')
+    secs, tbls=dp.parse(os.path.join(BASE_DIR, 'data/docs/夏至各地习俗.docx'))
     print(secs)
     print(tbls)

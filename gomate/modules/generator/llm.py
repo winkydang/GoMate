@@ -120,6 +120,7 @@ class QwenChat(BaseModel):
         super().__init__(path)
         self.load_model()
         self.device='cuda'
+
     def chat(self, prompt: str, history: List = [], content: str = '', llm_only: bool = False) -> tuple[Any, Any]:
         if llm_only:
             prompt = prompt
@@ -158,6 +159,8 @@ class QwenChat(BaseModel):
             device_map="auto",
             trust_remote_code=True
         )
+
+
 class DashscopeChat(BaseModel):
     def __init__(self, path: str = '', model: str = "qwen-turbo") -> None:
         super().__init__(path)

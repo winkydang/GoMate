@@ -12,9 +12,12 @@
 import os
 import sys
 
+from settings import BASE_DIR
+
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 sys.path.append('.')
-sys.path.append('/data/users/searchgpt/yq/GoMate')
+# sys.path.append('/data/users/searchgpt/yq/GoMate')
+sys.path.append(BASE_DIR)
 # sys.path.append('/data/users/searchgpt/yq/GoMate_dev')
 from apps.app import create_app
 from apps.config.app_config import AppConfig

@@ -9,6 +9,8 @@
 @software: PyCharm
 @description: coding..
 """
+import os
+
 import loguru
 from fastapi import APIRouter
 
@@ -16,6 +18,7 @@ from api.apps.core.rerank.bodys import RerankBody
 from api.apps.core.rerank.models import Application
 from api.apps.handle.response.json_response import UserNotFoundResponse, ApiResponse
 from gomate.modules.reranker.bge_reranker import BgeReranker, BgeRerankerConfig
+from settings import BASE_DIR
 
 # from apps.handle.exception.exception import MallException
 # from apps.core.config.models import LLMModel
@@ -23,8 +26,8 @@ from gomate.modules.reranker.bge_reranker import BgeReranker, BgeRerankerConfig
 
 rerank_router = APIRouter()
 reranker_config = BgeRerankerConfig(
-    model_name_or_path="/data/users/searchgpt/pretrained_models/bge-reranker-large"
-)
+    # model_name_or_path="/data/users/searchgpt/pretrained_models/bge-reranker-large"
+    model_name_or_path=os.path.join(BASE_DIR, 'pretrained_models/bge-reranker-large'))
 bge_reranker = BgeReranker(reranker_config)
 # Create
 @rerank_router.post("/rerank/", response_model=None, summary="重排序检索文档")

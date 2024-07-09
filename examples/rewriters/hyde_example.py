@@ -8,21 +8,22 @@ from gomate.modules.generator.llm import GLMChat
 from gomate.modules.retrieval.dense_retriever import DenseRetriever, DenseRetrieverConfig
 from gomate.modules.rewriter.hyde_rewriter import HydeRewriter
 from gomate.modules.rewriter.promptor import Promptor
+from settings import BASE_DIR
 
 if __name__ == '__main__':
     promptor = Promptor(task="WEB_SEARCH", language="zh")
 
     retriever_config = DenseRetrieverConfig(
-        model_name_or_path="/data/users/searchgpt/pretrained_models/bge-large-zh-v1.5",
+        model_name_or_path=os.path.join(BASE_DIR, "pretrained_models/bge-large-zh-v1.5"),
         dim=1024,
-        index_dir='/data/users/searchgpt/yq/GoMate/examples/retrievers/dense_cache'
+        index_dir=os.path.join(BASE_DIR, 'examples/retrievers/dense_cache')
     )
     config_info = retriever_config.log_config()
     retriever = DenseRetriever(config=retriever_config)
     parser = CommonParser()
 
     chunks = []
-    docs_path = '/data/users/searchgpt/yq/GoMate_dev/data/docs'
+    docs_path = os.path.join(BASE_DIR, 'data/docs')
     for filename in os.listdir(docs_path):
         file_path = os.path.join(docs_path, filename)
         try:
@@ -31,7 +32,7 @@ if __name__ == '__main__':
             pass
     retriever.build_from_texts(chunks)
 
-    data = pd.read_json('/data/users/searchgpt/yq/GoMate/data/docs/zh_refine.json', lines=True)[:5]
+    data = pd.read_json(os.path.join(BASE_DIR, 'data/docs/zh_refine.json'), lines=True)[:5]
     for documents in tqdm(data['positive'], total=len(data)):
         for document in documents:
             retriever.add_text(document)
@@ -40,7 +41,7 @@ if __name__ == '__main__':
             retriever.add_text(document)
 
     print("init_vector_store done! ")
-    generator = GLMChat("/data/users/searchgpt/pretrained_models/glm-4-9b-chat")
+    generator = GLMChat(os.path.join(BASE_DIR, "pretrained_models/glm-4-9b-chat"))
 
     hyde = HydeRewriter(promptor, generator, retriever)
     hypothesis_document = hyde.rewrite("RCEP具体包括哪些国家")

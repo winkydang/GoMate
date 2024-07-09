@@ -10,10 +10,11 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
-
+import os
 from io import BytesIO
 from openpyxl import load_workbook
 from gomate.modules.document.utils import find_codec
+from settings import BASE_DIR
 
 
 class ExcelParser:
@@ -94,6 +95,6 @@ class ExcelParser:
 
 if __name__ == "__main__":
     psr = ExcelParser()
-    contents=psr.parse('/data/users/searchgpt/yq/GoMate_dev/data/docs/dev.xlsx')
+    contents=psr.parse(os.path.join(BASE_DIR, 'data/docs/dev.xlsx'))
     print(len(contents))
     print(contents[0])

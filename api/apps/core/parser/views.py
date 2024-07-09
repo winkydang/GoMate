@@ -29,7 +29,7 @@ parse_router = APIRouter()
 
 
 @parse_router.post("/parse/", response_model=None, summary="文件解析")
-async def parser(file: UploadFile = File(...),chunk_size=512):
+async def parser(file: UploadFile = File(...), chunk_size=512):
     try:
         # 读取文件内容
         filename = file.filename
